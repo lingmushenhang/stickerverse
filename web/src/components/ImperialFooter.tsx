@@ -1,20 +1,15 @@
 // ═══════════════════════════════════════════════════════════
 //  ImperialFooter — 4-line independently flickering status bar
-//  Recursive setTimeout with jitter. Opacity sequence matches
-//  the original museum_portal.html design spec exactly.
+//  Flicker engine preserved 1:1. Added: opaque background +
+//  hairline (collision fix) and a true horizontal marquee
+//  (truncation fix). Reduced-motion falls back to wrapped text.
 // ═══════════════════════════════════════════════════════════
 'use client';
 import { useEffect, useRef } from 'react';
 
-// opacity sequence: [opacity, durationMs, opacity, durationMs, ...]
 const FLICKER_SEQ = [0.04, 55, 0.88, 45, 0.06, 30, 0.72, 60, 0.04, 35, 1.00, 80] as const;
 
-interface FooterLine {
-  id:    string;
-  text:  string;
-  color: string;
-  base:  number; // ms between flicker bursts
-}
+interface FooterLine { id: string; text: string; color: string; base: number; }
 
 const LINES: FooterLine[] = [
   { id: 'fl1', color: '#ffd700',              base: 3100,
@@ -30,10 +25,8 @@ const LINES: FooterLine[] = [
 function startFlicker(el: HTMLElement, base: number): () => void {
   let cancelled = false;
   let step = 0;
-
   function tick() {
     if (cancelled) return;
-
     if (step >= FLICKER_SEQ.length) {
       el.style.opacity = '';
       step = 0;
@@ -41,16 +34,12 @@ function startFlicker(el: HTMLElement, base: number): () => void {
       setTimeout(tick, base + jitter);
       return;
     }
-
     el.style.opacity = String(FLICKER_SEQ[step]);
     const delay = FLICKER_SEQ[step + 1] as number;
     step += 2;
     setTimeout(tick, delay);
   }
-
-  // Stagger initial start
   setTimeout(tick, Math.random() * base);
-
   return () => { cancelled = true; };
 }
 
@@ -59,49 +48,46 @@ export default function ImperialFooter() {
 
   useEffect(() => {
     const cleanups: Array<() => void> = [];
-
     LINES.forEach(line => {
       const el = refs.current.get(line.id);
       if (el) cleanups.push(startFlicker(el, line.base));
     });
-
     return () => cleanups.forEach(fn => fn());
   }, []);
 
   return (
     <footer
       style={{
-        position:   'fixed',
-        bottom:     0,
-        left:       0,
-        right:      0,
-        zIndex:     50,
-        padding:    '16px 32px 18px',
-        background: 'linear-gradient(to top, rgba(0,0,8,0.97) 0%, transparent 100%)',
-        display:    'flex',
-        flexDirection: 'column',
-        gap:        '4px',
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
+        padding: '14px 24px 16px',
+        background: 'rgba(0,0,8,0.985)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+        borderTop: '1px solid rgba(255,215,0,0.16)',
+        display: 'flex', flexDirection: 'column', gap: '4px',
         pointerEvents: 'none',
       }}
     >
-      {LINES.map(line => (
-        <div
-          key={line.id}
-          ref={el => { if (el) refs.current.set(line.id, el); }}
-          style={{
-            fontSize:     '9px',
-            letterSpacing:'3px',
-            textTransform:'uppercase',
-            whiteSpace:   'nowrap',
-            overflow:     'hidden',
-            textOverflow: 'ellipsis',
-            color:        line.color,
-            fontFamily:   '"Courier New", monospace',
-          }}
-        >
-          {line.text}
-        </div>
-      ))}
+      {LINES.map(line => {
+        const dur = Math.max(16, Math.round(line.base / 130));
+        return (
+          <div
+            key={line.id}
+            ref={el => { if (el) refs.current.set(line.id, el); }}
+            className="imperial-footer-line"
+            style={{
+              fontSize: '9px', letterSpacing: '3px', textTransform: 'uppercase',
+              overflow: 'hidden', whiteSpace: 'nowrap',
+              color: line.color, fontFamily: '"Courier New", monospace',
+            }}
+          >
+            <span className="imperial-footer-track" style={{ ['--dur' as string]: dur + 's' }}>
+              <span className="imperial-footer-seg">{line.text}</span>
+              <span className="imperial-footer-seg imperial-footer-dup" aria-hidden="true">{line.text}</span>
+            </span>
+          </div>
+        );
+      })}
     </footer>
   );
 }

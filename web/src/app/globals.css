@@ -16,6 +16,7 @@
   --gold3: #ffe566;
   --cyan:  #00e5cc;
   --text:  #c8c0a8;
+  --footer-h: 124px;
 }
 
 html {
@@ -29,6 +30,7 @@ body {
   overflow-x: hidden;
   cursor: crosshair;
   min-height: 100vh;
+  padding-bottom: var(--footer-h);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -48,10 +50,27 @@ body {
   outline-offset: 2px;
 }
 
+/* ── Imperial Footer marquee + collision fix ── */
+.imperial-footer-track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: imperial-marquee var(--dur, 28s) linear infinite;
+}
+.imperial-footer-seg { padding-right: 6rem; }
+@keyframes imperial-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 /* ── Reduced motion: kill all animations ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+  .imperial-footer-line  { white-space: normal; }
+  .imperial-footer-track { animation: none !important; display: block; }
+  .imperial-footer-dup   { display: none; }
+  .imperial-footer-seg   { padding-right: 0; }
 }
