@@ -7,7 +7,7 @@
   "installCommand": "npm install",
   "outputDirectory": ".next",
 
-  "regions": ["nrt1"],
+  "regions": ["hnd1"],
 
   "functions": {
     "src/app/api/**/*": {
