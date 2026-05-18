@@ -1,0 +1,112 @@
+{
+  "version": "1.1",
+  "universal": {
+    "stickerBlock": "die-cut sticker design, thick clean white border outline, isolated on PURE WHITE background only, NO paper texture, centered composition, professional sticker product photography",
+    "qualityTags": "high quality, sharp clean edges, vibrant colors, ultra detailed, 4k resolution",
+    "negative": ". Avoid: text, words, labels, watermark, signature, paper texture, copyrighted character, complex background, blurry, pixelated, multiple subjects"
+  },
+  "styles": [
+    {
+      "id": "bonbon_drop",
+      "emoji": "💎",
+      "labels": {
+        "ja": "ボンボン",
+        "en": "BonBon Drop"
+      },
+      "tagline": {
+        "ja": "ぷっくり立体・宝石ドロップ風"
+      },
+      "color": "#FF9EC7",
+      "bestFor": ["round shapes", "single character", "fruits", "faces"],
+      "avoidFor": ["angular subjects", "complex scenes"],
+      "verified_score": 90,
+      "style_block": "glossy 3D resin texture, jewel-like puffy translucent dome, soft candy-like surface with bright specular highlights, raised dome appearance suggesting physical depth, refractive light through translucent material, glassy shine, bonbon candy aesthetic, Sanrio-inspired puffy sticker style",
+      "showcase_sample_id": "bonbon_drop_cat"
+    },
+    {
+      "id": "wet_pop",
+      "emoji": "🫧",
+      "labels": {
+        "ja": "うるちゅる",
+        "en": "Wet Pop"
+      },
+      "tagline": {
+        "ja": "ホロきらきら・虹色透明感"
+      },
+      "color": "#C9A6FF",
+      "bestFor": ["translucent subjects", "wings", "ocean creatures"],
+      "avoidFor": ["matte surfaces", "earth tones"],
+      "verified_score": 98,
+      "style_block": "holographic iridescent shimmer surface, dewy wet glossy finish, sparkly transparent beads embedded inside, rainbow chromatic reflections, mother-of-pearl iridescence, prismatic light dispersion, oily wet pop sticker aesthetic, 3D liquid-jelly appearance",
+      "showcase_sample_id": "wet_pop_butterfly"
+    },
+    {
+      "id": "encyclopedia",
+      "emoji": "🪨",
+      "labels": {
+        "ja": "図鑑",
+        "en": "Encyclopedia"
+      },
+      "tagline": {
+        "ja": "大人の標本・知的な趣味感"
+      },
+      "color": "#A89968",
+      "bestFor": ["minerals", "insects", "plants", "fossils"],
+      "avoidFor": ["modern characters", "neon colors"],
+      "verified_score": 96,
+      "style_block": "vintage botanical encyclopedia illustration style, antique scientific drawing aesthetic, detailed precise line art with fine cross-hatching, muted earthy color palette with sepia undertones, archival specimen-like presentation, 19th century natural history book illustration, refined intellectual aesthetic",
+      "showcase_sample_id": "encyclopedia_amethyst"
+    },
+    {
+      "id": "puni_puni",
+      "emoji": "🐾",
+      "labels": {
+        "ja": "ぷにぷに",
+        "en": "Puni Puni"
+      },
+      "tagline": {
+        "ja": "触感系・マシュマロみ"
+      },
+      "color": "#FFD370",
+      "bestFor": ["paw pads", "round animals", "soft food"],
+      "avoidFor": ["sharp objects", "dark colors"],
+      "verified_score": 97,
+      "style_block": "soft squishy puffy texture, plump rounded form with extreme cuteness, gel-like translucent surface, pastel kawaii color palette, cushion-like volumetric appearance, marshmallow soft aesthetic, sanrio-inspired ultra cute design, gentle smooth surfaces inviting touch",
+      "showcase_sample_id": "puni_puni_paw"
+    },
+    {
+      "id": "heisei_retro",
+      "emoji": "📟",
+      "labels": {
+        "ja": "平成",
+        "en": "Heisei Retro"
+      },
+      "tagline": {
+        "ja": "Y2Kエモい・コギャル文化"
+      },
+      "color": "#7DF9FF",
+      "bestFor": ["flip phones", "lipstick", "hearts and stars", "y2k items"],
+      "avoidFor": ["minimalist designs", "earth tones"],
+      "verified_score": 96,
+      "style_block": "90s Y2K Japanese decoration aesthetic, vibrant neon color palette with hot pink and electric blue, glittery sparkle elements scattered, nostalgic retro vibe, gyaru kogal decoration style, decorative star and heart elements, holographic foil accents, photographic with glitter overlay",
+      "showcase_sample_id": "heisei_retro_keitai"
+    },
+    {
+      "id": "anime",
+      "emoji": "✨",
+      "labels": {
+        "ja": "アニメ",
+        "en": "Anime"
+      },
+      "tagline": {
+        "ja": "セル画風・キャラクター"
+      },
+      "color": "#F4D03F",
+      "bestFor": ["characters", "chibi", "magical girls"],
+      "avoidFor": ["realistic portraits", "abstract subjects"],
+      "verified_score": 96,
+      "style_block": "anime cel-shading illustration, vibrant character design with expressive features, clean line art, manga-style aesthetic, bright saturated colors, sharp shadow boundaries typical of cel animation, professional anime production quality",
+      "showcase_sample_id": "anime_magical_girl"
+    }
+  ]
+}

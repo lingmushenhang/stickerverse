@@ -1,0 +1,396 @@
+{
+  "version": "1.1",
+  "schema_notes": "subject.en はGemini送信用。subject.ja はUIラベル・将来の多言語展開用。style_blockはstyles.jsonから参照し重複保存しない。",
+  "samples": [
+    {
+      "id": "bonbon_drop_cat",
+      "style_id": "bonbon_drop",
+      "labels": { "ja": "ふわふわネコ", "en": "Fluffy Cat" },
+      "subject": {
+        "ja": "丸くてふっくらした可愛い猫の顔、目を閉じた幸せそうな表情、頬がピンク",
+        "en": "A round chubby kawaii cat face with closed happy eyes and soft pink cheeks"
+      },
+      "showcase": true,
+      "verified": true,
+      "verified_score": 90,
+      "tags": ["animal", "cat", "face"]
+    },
+    {
+      "id": "bonbon_drop_strawberry",
+      "style_id": "bonbon_drop",
+      "labels": { "ja": "いちご", "en": "Strawberry" },
+      "subject": {
+        "ja": "ツヤツヤのルビーレッドのいちご、上に明るい緑の葉",
+        "en": "A glossy ruby-red strawberry with bright green leaves on top"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 90,
+      "tags": ["food", "fruit", "strawberry"]
+    },
+    {
+      "id": "bonbon_drop_rainbow_heart",
+      "style_id": "bonbon_drop",
+      "labels": { "ja": "レインボーハート", "en": "Rainbow Heart" },
+      "subject": {
+        "ja": "なめらかなレインボーグラデーション入りの、ぷっくり半透明ハート",
+        "en": "A puffy translucent heart with smooth rainbow gradient inside"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 90,
+      "tags": ["shape", "heart", "rainbow"]
+    },
+    {
+      "id": "bonbon_drop_chibi_astronaut",
+      "style_id": "bonbon_drop",
+      "labels": { "ja": "宇宙飛行士ちび", "en": "Chibi Astronaut" },
+      "subject": {
+        "ja": "ふわふわ浮かぶ可愛いちび宇宙飛行士、ヘルメットのバイザーに星が反射",
+        "en": "A cute chibi astronaut in a tiny floating pose with reflective helmet visor showing stars"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 90,
+      "tags": ["character", "space", "chibi"]
+    },
+    {
+      "id": "bonbon_drop_pink_donut",
+      "style_id": "bonbon_drop",
+      "labels": { "ja": "ピンクドーナツ", "en": "Pink Donut" },
+      "subject": {
+        "ja": "カラフルなレインボースプリンクル付きのピンクフロストドーナツ",
+        "en": "A pink frosted donut with multicolor rainbow sprinkles"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 90,
+      "tags": ["food", "donut", "sweet"]
+    },
+    {
+      "id": "wet_pop_butterfly",
+      "style_id": "wet_pop",
+      "labels": { "ja": "ホロチョウチョ", "en": "Holo Butterfly" },
+      "subject": {
+        "ja": "虹色の反射が見える透明ホログラフィック翅を持つ繊細な蝶",
+        "en": "A delicate butterfly with translucent holographic wings showing rainbow chromatic reflections"
+      },
+      "showcase": true,
+      "verified": true,
+      "verified_score": 98,
+      "tags": ["insect", "butterfly", "holographic"]
+    },
+    {
+      "id": "wet_pop_jellyfish",
+      "style_id": "wet_pop",
+      "labels": { "ja": "クラゲ", "en": "Jellyfish" },
+      "subject": {
+        "ja": "流れる触手と虹色の傘を持つパステルカラーのクラゲ",
+        "en": "A pastel jellyfish with flowing tentacles and iridescent bell"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 98,
+      "tags": ["ocean", "jellyfish", "iridescent"]
+    },
+    {
+      "id": "wet_pop_bubble_girl",
+      "style_id": "wet_pop",
+      "labels": { "ja": "シャボン玉ガール", "en": "Bubble Girl" },
+      "subject": {
+        "ja": "パステルカラーの髪のちびっ子女の子がシャボン玉を持っている",
+        "en": "A small chibi girl with pastel hair holding a soap bubble"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 98,
+      "tags": ["character", "chibi", "bubble"]
+    },
+    {
+      "id": "wet_pop_holo_star",
+      "style_id": "wet_pop",
+      "labels": { "ja": "ホロ星", "en": "Holo Star" },
+      "subject": {
+        "ja": "虹色のホログラフィックが移り変わる五芒星",
+        "en": "A five-pointed star with shifting holographic rainbow surface"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 98,
+      "tags": ["shape", "star", "holographic"]
+    },
+    {
+      "id": "wet_pop_seashell",
+      "style_id": "wet_pop",
+      "labels": { "ja": "シェル", "en": "Seashell" },
+      "subject": {
+        "ja": "自然な螺旋と真珠光沢の内面を持つ小さな貝殻",
+        "en": "A small sea shell with natural spirals and pearlescent inner surface"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 98,
+      "tags": ["ocean", "shell", "pearl"]
+    },
+    {
+      "id": "encyclopedia_amethyst",
+      "style_id": "encyclopedia",
+      "labels": { "ja": "アメジスト", "en": "Amethyst" },
+      "subject": {
+        "ja": "詳細な面を持つアメジスト結晶クラスターの精密なイラスト",
+        "en": "A precise illustration of an amethyst crystal cluster with detailed facets"
+      },
+      "showcase": true,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["mineral", "crystal", "amethyst"]
+    },
+    {
+      "id": "encyclopedia_butterfly_specimen",
+      "style_id": "encyclopedia",
+      "labels": { "ja": "ヴィンテージ蝶", "en": "Butterfly Specimen" },
+      "subject": {
+        "ja": "詳細な翅模様を持つアゲハチョウのピン留め標本",
+        "en": "A pinned specimen of a swallowtail butterfly with detailed wing patterns"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["insect", "butterfly", "specimen"]
+    },
+    {
+      "id": "encyclopedia_mushroom",
+      "style_id": "encyclopedia",
+      "labels": { "ja": "キノコ図鑑", "en": "Mushroom Field Guide" },
+      "subject": {
+        "ja": "胞子が見える断面図付きの詳細な赤いキノコ",
+        "en": "A detailed red-cap mushroom with cross-section view showing spores"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["plant", "mushroom", "cross-section"]
+    },
+    {
+      "id": "encyclopedia_ammonite",
+      "style_id": "encyclopedia",
+      "labels": { "ja": "アンモナイト", "en": "Ammonite" },
+      "subject": {
+        "ja": "詳細な殻室構造と風化したテクスチャを持つ螺旋状アンモナイト化石",
+        "en": "A spiral ammonite fossil with detailed chamber structure and weathered texture"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["fossil", "ammonite", "spiral"]
+    },
+    {
+      "id": "encyclopedia_scarab",
+      "style_id": "encyclopedia",
+      "labels": { "ja": "スカラベ", "en": "Scarab Beetle" },
+      "subject": {
+        "ja": "詳細なヒエログリフ彫刻が施された横向きの古代エジプトのスカラベ",
+        "en": "An ancient Egyptian scarab beetle in profile with detailed hieroglyphic engravings"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["insect", "scarab", "ancient"]
+    },
+    {
+      "id": "puni_puni_paw",
+      "style_id": "puni_puni",
+      "labels": { "ja": "肉球", "en": "Paw Pad" },
+      "subject": {
+        "ja": "3つの丸い指の肉球と1つのメイン肉球を持つピンクのふわふわ肉球",
+        "en": "A pink fluffy paw print with three round toe pads and one main pad"
+      },
+      "showcase": true,
+      "verified": true,
+      "verified_score": 97,
+      "tags": ["animal", "paw", "cute"]
+    },
+    {
+      "id": "puni_puni_rabbit_butt",
+      "style_id": "puni_puni",
+      "labels": { "ja": "うさぎおしり", "en": "Rabbit Butt" },
+      "subject": {
+        "ja": "ぷっくりふわふわのおしりを見せる小さなちびっ子うさぎの後ろ姿",
+        "en": "The back view of a tiny chibi rabbit showing its plump fluffy bottom"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 97,
+      "tags": ["animal", "rabbit", "chibi"]
+    },
+    {
+      "id": "puni_puni_melon_pan",
+      "style_id": "puni_puni",
+      "labels": { "ja": "もちもちパン", "en": "Mochi Bread" },
+      "subject": {
+        "ja": "上に可愛い閉じた目が描かれた丸い日本のメロンパン",
+        "en": "A round Japanese melon bread with cute closed eyes drawn on top"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 97,
+      "tags": ["food", "bread", "kawaii"]
+    },
+    {
+      "id": "puni_puni_whale",
+      "style_id": "puni_puni",
+      "labels": { "ja": "ぷにクジラ", "en": "Puni Whale" },
+      "subject": {
+        "ja": "閉じた幸せそうな目と小さなヒレを持つ小さく丸いちびクジラ",
+        "en": "A tiny round chibi whale with closed happy eyes and small fin"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 97,
+      "tags": ["animal", "whale", "chibi"]
+    },
+    {
+      "id": "puni_puni_macaron",
+      "style_id": "puni_puni",
+      "labels": { "ja": "ぷにマカロン", "en": "Puni Macaron" },
+      "subject": {
+        "ja": "横からクリームフィリングが見えるパステルピンクのマカロン",
+        "en": "A pastel pink macaron with cream filling visible on the side"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 97,
+      "tags": ["food", "macaron", "pastel"]
+    },
+    {
+      "id": "heisei_retro_keitai",
+      "style_id": "heisei_retro",
+      "labels": { "ja": "ガラケー", "en": "Flip Phone" },
+      "subject": {
+        "ja": "ホットピンクとエレクトリックブルーのシールで装飾された、小さなチャームストラップ付きガラケー",
+        "en": "A flip-phone keitai with a small charm strap, decorated with hot pink and electric blue stickers"
+      },
+      "showcase": true,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["y2k", "phone", "gyaru"]
+    },
+    {
+      "id": "heisei_retro_lipstick",
+      "style_id": "heisei_retro",
+      "labels": { "ja": "ヒョウ柄リップ", "en": "Leopard Lipstick" },
+      "subject": {
+        "ja": "ヒョウ柄パターン入りのツヤツヤピンクリップスティック",
+        "en": "A glossy pink lipstick tube with leopard print pattern"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["y2k", "makeup", "leopard"]
+    },
+    {
+      "id": "heisei_retro_neon_heart",
+      "style_id": "heisei_retro",
+      "labels": { "ja": "ネオンハート", "en": "Neon Heart" },
+      "subject": {
+        "ja": "エレクトリックブルーの輪郭と周囲にシルバーグリッターが散りばめられた鮮やかなマゼンタハート",
+        "en": "A bright magenta heart with electric blue outline and silver glitter sparkles around it"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["y2k", "heart", "neon"]
+    },
+    {
+      "id": "heisei_retro_purikura_girl",
+      "style_id": "heisei_retro",
+      "labels": { "ja": "プリクラ風ガール", "en": "Purikura Girl" },
+      "subject": {
+        "ja": "ピースサインと誇張されたキラキラ目を持つ小さなちびっ子女の子の顔",
+        "en": "A small chibi girl face with peace sign hand gesture and exaggerated sparkle eyes"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["y2k", "character", "purikura"]
+    },
+    {
+      "id": "heisei_retro_neon_star",
+      "style_id": "heisei_retro",
+      "labels": { "ja": "ネオンスター", "en": "Neon Star" },
+      "subject": {
+        "ja": "クロームの輪郭を持つ鮮やかなマゼンタの星、周囲にキラキラスパークル",
+        "en": "A bright magenta star with chrome outline, surrounded by glittery sparkles"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["y2k", "star", "neon"]
+    },
+    {
+      "id": "anime_magical_girl",
+      "style_id": "anime",
+      "labels": { "ja": "魔法少女", "en": "Magical Girl" },
+      "subject": {
+        "ja": "ツインテールと杖を持つ若い魔法少女、表情豊かなキラキラの目、パステルピンクと白のフリル衣装",
+        "en": "A young magical girl character with twin tails and a wand, expressive sparkling eyes, frilly outfit in pastel pink and white"
+      },
+      "showcase": true,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["character", "magical-girl", "anime"]
+    },
+    {
+      "id": "anime_cat_ear_girl",
+      "style_id": "anime",
+      "labels": { "ja": "猫耳ガール", "en": "Cat Ear Girl" },
+      "subject": {
+        "ja": "猫耳と幸せな表情を持つ可愛いアニメ少女",
+        "en": "A cute anime girl with cat ears and a happy expression"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["character", "nekomimi", "anime"]
+    },
+    {
+      "id": "anime_chibi_samurai",
+      "style_id": "anime",
+      "labels": { "ja": "ちび侍", "en": "Chibi Samurai" },
+      "subject": {
+        "ja": "小さな刀と決意の表情を持つちびっ子侍キャラクター",
+        "en": "A chibi samurai character with a small katana and determined expression"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["character", "samurai", "chibi"]
+    },
+    {
+      "id": "anime_mecha_pilot",
+      "style_id": "anime",
+      "labels": { "ja": "メカパイロット", "en": "Mecha Pilot" },
+      "subject": {
+        "ja": "スタイリッシュなパイロットスーツを着た自信のあるポーズの若いアニメメカパイロット",
+        "en": "A young anime mecha pilot wearing a sleek pilot suit with a confident pose"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["character", "mecha", "anime"]
+    },
+    {
+      "id": "anime_ramen_girl",
+      "style_id": "anime",
+      "labels": { "ja": "食いしん坊女子", "en": "Ramen Girl" },
+      "subject": {
+        "ja": "キラキラ目で巨大なラーメンどんぶりを興奮して持つちびっ子アニメ少女",
+        "en": "A chibi anime girl excitedly holding a giant ramen bowl with sparkling eyes"
+      },
+      "showcase": false,
+      "verified": true,
+      "verified_score": 96,
+      "tags": ["character", "food", "chibi"]
+    }
+  ]
+}

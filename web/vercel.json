@@ -1,0 +1,35 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "framework": "nextjs",
+
+  "buildCommand":   "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+
+  "regions": ["nrt1"],
+
+  "functions": {
+    "src/app/api/**/*": {
+      "maxDuration": 10
+    }
+  },
+
+  "env": {
+    "NEXT_PUBLIC_APP_URL": "https://sticker-verse.com"
+  },
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "index, follow" }
+      ]
+    }
+  ],
+
+  "github": {
+    "silent": false,
+    "autoJobCancelation": true
+  }
+}

@@ -1,0 +1,57 @@
+/* ═══════════════════════════════════════════════════════════
+   STICKERVERSE MUSEUM — Global Styles
+   Imperial Vault 1.0
+═══════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --void:  #000008;
+  --gold:  #ffd700;
+  --gold2: #ffb300;
+  --gold3: #ffe566;
+  --cyan:  #00e5cc;
+  --text:  #c8c0a8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Courier New', 'Share Tech Mono', monospace;
+  overflow-x: hidden;
+  cursor: crosshair;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--void);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar        { width: 2px; }
+::-webkit-scrollbar-track  { background: var(--void); }
+::-webkit-scrollbar-thumb  { background: var(--gold); }
+
+/* ── Focus ring ── */
+:focus-visible {
+  outline: 1px solid rgba(0, 229, 204, 0.6);
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion: kill all animations ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

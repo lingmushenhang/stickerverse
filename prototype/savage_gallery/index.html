@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Savage Gallery | High-end Pathetic</title>
+<style>
+/* ═══════════════════════════════════════════
+   RESET & TOKENS
+═══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:        #c9a84c;
+  --gold-bright: #f0d060;
+  --gold-dim:    #6a5020;
+  --pearl:       #e8e4df;
+  --void:        #000;
+  --obsidian:    #0a0a0a;
+  --red:         #ff3355;
+  --green:       #00ff88;
+  --border:      rgba(201,168,76,.35);
+}
+html,body{width:100%;height:100%;background:var(--void);color:var(--pearl);
+  font-family:'Georgia','Times New Roman',serif;overflow-x:hidden}
+
+/* ═══════════════════════════════════════════
+   SCREEN SYSTEM  (メイン / Vault の2画面)
+═══════════════════════════════════════════ */
+.screen{
+  position:fixed;inset:0;
+  opacity:0;pointer-events:none;
+  transition:opacity .8s ease;
+  overflow-y:auto;
+}
+.screen.active{opacity:1;pointer-events:all}
+
+/* ═══════════════════════════════════════════
+   ── SCREEN A : MAIN ──
+═══════════════════════════════════════════ */
+
+/* 背景動画 */
+.bg-wrap{
+  position:fixed;inset:0;z-index:0;overflow:hidden;
+  background:radial-gradient(ellipse at center,#1a1208 0%,#080604 60%,#000 100%);
+}
+.bg-wrap video{
+  position:absolute;top:50%;left:50%;
+  min-width:100%;min-height:100%;width:auto;height:auto;
+  transform:translate(-50%,-50%);object-fit:cover;will-change:transform;
+}
+.bg-wrap::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,
+    rgba(0,0,0,.5) 0%,rgba(0,0,0,.08) 40%,
+    rgba(0,0,0,.08) 60%,rgba(0,0,0,.75) 100%);
+}
+
+/* ヒーロー */
+.hero{
+  position:relative;z-index:10;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:2rem;text-align:center;
+}
+.hero-title{
+  font-size:clamp(2.4rem,8vw,5.5rem);font-weight:400;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--pearl);
+  text-shadow:0 0 50px rgba(201,168,76,.45),0 2px 6px rgba(0,0,0,.9);
+  margin-bottom:.5rem;
+}
+.hero-sub{
+  font-size:clamp(.7rem,1.8vw,.95rem);letter-spacing:.6em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:3rem;
+}
+.enter-btn{
+  display:inline-block;padding:.9rem 2.8rem;
+  border:1px solid var(--gold);color:var(--gold);
+  font-size:.8rem;letter-spacing:.5em;text-transform:uppercase;
+  text-decoration:none;background:transparent;cursor:pointer;
+  transition:background .3s,color .3s,box-shadow .3s;margin-bottom:2.5rem;
+}
+.enter-btn:hover{background:var(--gold);color:var(--void);box-shadow:0 0 32px rgba(201,168,76,.55)}
+.bgm-hint{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;
+  color:rgba(255,255,255,.16);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.16}50%{opacity:.5}}
+
+/* ── トリアージ ── */
+.triage{
+  position:relative;z-index:10;
+  width:min(580px,92vw);margin:0 auto 8rem;
+  border:1px solid var(--border);
+  padding:2.4rem 2rem;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(14px);
+}
+.triage h2{font-size:.7rem;letter-spacing:.55em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.triage .desc{font-size:.68rem;letter-spacing:.12em;
+  color:rgba(255,255,255,.32);line-height:1.9;margin-bottom:1.4rem}
+.t-area{
+  width:100%;min-height:110px;resize:vertical;
+  background:rgba(0,0,0,.55);border:1px solid var(--border);
+  color:var(--pearl);font-family:inherit;font-size:.78rem;
+  letter-spacing:.05em;line-height:1.8;padding:.9rem;outline:none;
+  transition:border-color .3s;
+}
+.t-area::placeholder{color:rgba(255,255,255,.18)}
+.t-area:focus{border-color:var(--gold)}
+.alch-btn{
+  margin-top:1.1rem;width:100%;padding:.85rem;
+  background:transparent;border:1px solid var(--gold);
+  color:var(--gold);font-family:inherit;
+  font-size:.78rem;letter-spacing:.55em;text-transform:uppercase;
+  cursor:pointer;transition:background .3s,color .3s,box-shadow .3s;
+}
+.alch-btn:hover:not(:disabled){background:var(--gold);color:var(--void);box-shadow:0 0 26px rgba(201,168,76,.45)}
+.alch-btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* ローディング */
+.t-load{display:none;margin-top:1.8rem;text-align:center}
+.t-load.on{display:block}
+.l-text{font-size:.72rem;letter-spacing:.42em;color:var(--gold);
+  animation:flicker 1.3s ease-in-out infinite}
+@keyframes flicker{0%,100%{opacity:1}48%{opacity:.25}55%{opacity:.95}}
+.l-bar-wrap{margin:.8rem auto 0;width:82%;height:1px;background:rgba(201,168,76,.18);overflow:hidden}
+.l-bar{height:100%;width:0%;background:var(--gold);transition:width linear}
+
+/* リザルト */
+.t-result{display:none;margin-top:1.8rem;padding:1.4rem;border:1px solid;text-align:center}
+.t-result.on{display:block}
+.t-result.e{border-color:rgba(255,51,85,.4);background:rgba(255,51,85,.04)}
+.t-result.ssr{border-color:var(--gold);background:rgba(201,168,76,.05);
+  box-shadow:0 0 48px rgba(201,168,76,.14)}
+.r-rank{font-size:2.3rem;letter-spacing:.22em;margin-bottom:.4rem}
+.e .r-rank{color:var(--red)}
+.ssr .r-rank{color:var(--gold-bright);text-shadow:0 0 22px rgba(240,208,96,.55)}
+.r-verdict{font-size:.72rem;letter-spacing:.18em;
+  line-height:2;color:rgba(255,255,255,.62);white-space:pre-line}
+.r-sub{margin-top:.9rem;font-size:.58rem;letter-spacing:.3em;color:rgba(255,255,255,.22)}
+.retry-btn{
+  margin-top:1.4rem;padding:.55rem 1.8rem;background:transparent;
+  border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.28);
+  font-family:inherit;font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;
+  cursor:pointer;transition:border-color .3s,color .3s;
+}
+.retry-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* フッター & 隠しリンク */
+.footer{
+  position:fixed;bottom:0;left:0;right:0;z-index:20;
+  padding:1.1rem 2rem;display:flex;align-items:center;
+  justify-content:center;flex-wrap:wrap;gap:.4rem;
+  background:linear-gradient(to top,rgba(0,0,0,.88),transparent);
+}
+.tos{font-size:.62rem;letter-spacing:.14em;color:rgba(255,255,255,.22);user-select:none}
+.hidden-link{
+  font-size:.62rem;letter-spacing:.14em;color:rgba(255,255,255,.22);
+  text-decoration:none;cursor:default;position:relative;
+  transition:color .85s,text-shadow .85s,letter-spacing .45s;
+}
+.hidden-link:hover{
+  color:var(--gold-bright);cursor:pointer;letter-spacing:.32em;
+  text-shadow:0 0 8px rgba(240,208,96,.95),0 0 22px rgba(240,208,96,.5),
+              0 0 44px rgba(201,168,76,.28);
+}
+.hidden-link::after{
+  content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;
+  background:var(--gold);transition:width .85s;
+}
+.hidden-link:hover::after{width:100%}
+
+/* ═══════════════════════════════════════════
+   VAULT OVERLAY  (認証モーダル)
+═══════════════════════════════════════════ */
+.vault-overlay{
+  position:fixed;inset:0;z-index:80;
+  background:rgba(0,0,0,0);pointer-events:none;
+  transition:background .75s;
+}
+.vault-overlay.open{background:rgba(0,0,0,.93);pointer-events:all}
+
+.vault-gate{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(.88);
+  width:min(460px,92vw);
+  border:1px solid var(--gold-dim);
+  background:#050505;
+  padding:2.8rem 2.2rem;text-align:center;
+  opacity:0;transition:opacity .5s .25s,transform .5s .25s;
+  box-shadow:0 0 80px rgba(201,168,76,.06),inset 0 0 60px rgba(0,0,0,.85);
+}
+.vault-overlay.open .vault-gate{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* コーナーブラケット */
+.vault-gate::before,.vault-gate::after{
+  content:'';position:absolute;width:14px;height:14px;
+  border-color:var(--gold);border-style:solid;
+}
+.vault-gate::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+.vault-gate::after {bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+
+/* スキャンライン */
+.scan{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:.05}
+.scan::before{
+  content:'';position:absolute;width:100%;height:2px;
+  background:var(--gold);animation:scan 2.8s linear infinite;
+}
+@keyframes scan{0%{top:-4px}100%{top:100%}}
+
+.v-label{font-size:.5rem;letter-spacing:.7em;text-transform:uppercase;
+  color:var(--gold-dim);margin-bottom:1.8rem}
+.v-title{font-size:1.3rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--pearl);text-shadow:0 0 24px rgba(201,168,76,.28);margin-bottom:.3rem}
+.v-sub{font-size:.58rem;letter-spacing:.45em;
+  color:rgba(255,255,255,.18);margin-bottom:2.2rem}
+
+/* 入力 */
+.v-input-wrap{position:relative;margin-bottom:1.3rem}
+.v-input-wrap::before{
+  content:'> ';position:absolute;left:.9rem;top:50%;transform:translateY(-50%);
+  color:var(--gold);font-family:'Courier New',monospace;font-size:.82rem;pointer-events:none;
+}
+.v-input{
+  width:100%;padding:.85rem .9rem .85rem 2.2rem;
+  background:rgba(201,168,76,.03);border:1px solid var(--border);
+  color:var(--gold-bright);font-family:'Courier New',monospace;
+  font-size:.9rem;letter-spacing:.45em;outline:none;
+  transition:border-color .3s,box-shadow .3s;
+}
+.v-input:focus{border-color:var(--gold);box-shadow:0 0 22px rgba(201,168,76,.14)}
+.v-input::placeholder{color:rgba(201,168,76,.18);letter-spacing:.2em}
+.v-input.error{border-color:var(--red);animation:shake .38s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-7px)}40%{transform:translateX(7px)}
+  60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+.v-submit{
+  width:100%;padding:.82rem;background:transparent;
+  border:1px solid var(--gold-dim);color:var(--gold);
+  font-family:'Courier New',monospace;font-size:.72rem;
+  letter-spacing:.55em;text-transform:uppercase;cursor:pointer;
+  transition:background .3s,border-color .3s,box-shadow .3s;
+}
+.v-submit:hover{background:rgba(201,168,76,.07);border-color:var(--gold);
+  box-shadow:0 0 26px rgba(201,168,76,.18)}
+
+.v-err{height:1.1rem;margin-top:.9rem;font-family:'Courier New',monospace;
+  font-size:.58rem;letter-spacing:.3em;color:var(--red);
+  opacity:0;transition:opacity .3s}
+.v-err.show{opacity:1}
+.v-tries{margin-top:.7rem;font-size:.48rem;letter-spacing:.32em;color:rgba(255,255,255,.13)}
+
+.v-close{
+  position:absolute;top:.9rem;right:1rem;
+  background:none;border:none;color:rgba(255,255,255,.18);
+  font-size:1rem;cursor:pointer;line-height:1;transition:color .2s;
+}
+.v-close:hover{color:var(--gold)}
+
+/* 解錠エフェクト */
+.vault-gate.unlocking{animation:unlock 1s ease forwards}
+@keyframes unlock{
+  0% {border-color:var(--gold-dim);box-shadow:none}
+  55%{border-color:var(--gold-bright);
+      box-shadow:0 0 100px rgba(240,208,96,.45),inset 0 0 50px rgba(240,208,96,.08)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.06)}
+}
+
+/* ═══════════════════════════════════════════
+   ── SCREEN B : SINGULARITY VAULT ──
+═══════════════════════════════════════════ */
+#screenVault{
+  background:var(--void);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:100vh;padding:3rem 2rem;text-align:center;
+  z-index:200;
+}
+
+/* 縦スキャンライン背景 */
+#screenVault::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(
+    to right,
+    rgba(201,168,76,.015) 0px,rgba(201,168,76,.015) 1px,
+    transparent 1px,transparent 40px
+  );
+}
+
+.sv-eyebrow{font-size:.5rem;letter-spacing:.8em;text-transform:uppercase;
+  color:var(--gold-dim);margin-bottom:2rem;font-family:'Courier New',monospace}
+
+.sv-diamond{
+  font-size:4rem;line-height:1;margin-bottom:1.5rem;
+  filter:drop-shadow(0 0 20px rgba(201,168,76,.5))
+         drop-shadow(0 0 60px rgba(201,168,76,.2));
+  animation:diamondPulse 4s ease-in-out infinite;
+}
+@keyframes diamondPulse{
+  0%,100%{filter:drop-shadow(0 0 20px rgba(201,168,76,.5)) drop-shadow(0 0 60px rgba(201,168,76,.2))}
+  50%    {filter:drop-shadow(0 0 40px rgba(240,208,96,.8)) drop-shadow(0 0 100px rgba(201,168,76,.4))}
+}
+
+.sv-title{
+  font-size:clamp(1.8rem,5vw,3.5rem);letter-spacing:.35em;text-transform:uppercase;
+  color:var(--pearl);
+  text-shadow:0 0 40px rgba(201,168,76,.4),0 0 80px rgba(201,168,76,.15);
+  margin-bottom:.5rem;font-weight:400;
+}
+.sv-sub{font-size:.7rem;letter-spacing:.55em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:3rem}
+
+/* ターミナルログ */
+.sv-terminal{
+  width:min(560px,90vw);border:1px solid var(--border);
+  background:rgba(0,0,0,.6);padding:1.8rem;text-align:left;
+  margin-bottom:2.5rem;
+  font-family:'Courier New',monospace;font-size:.72rem;
+  line-height:2;color:rgba(201,168,76,.7);
+  backdrop-filter:blur(8px);
+}
+.sv-terminal .log-line{opacity:0;transform:translateY(4px);
+  transition:opacity .4s,transform .4s}
+.sv-terminal .log-line.show{opacity:1;transform:none}
+.sv-terminal .log-gold{color:var(--gold-bright)}
+.sv-terminal .log-dim {color:rgba(255,255,255,.25)}
+
+/* コレクション表示枠 */
+.sv-collection{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:1.2rem;width:min(560px,90vw);margin-bottom:3rem;
+}
+.sv-item{
+  border:1px solid var(--border);padding:1.5rem .8rem;text-align:center;
+  background:rgba(201,168,76,.03);
+  transition:box-shadow .4s,border-color .4s;
+  cursor:default;
+}
+.sv-item:hover{border-color:var(--gold);box-shadow:0 0 24px rgba(201,168,76,.15)}
+.sv-item-icon{font-size:1.8rem;margin-bottom:.5rem;display:block}
+.sv-item-name{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:.2rem}
+.sv-item-rarity{font-size:.5rem;letter-spacing:.2em;color:rgba(255,255,255,.2);display:block}
+
+.sv-exit{
+  padding:.7rem 2.5rem;background:transparent;
+  border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.22);
+  font-family:inherit;font-size:.62rem;letter-spacing:.5em;
+  text-transform:uppercase;cursor:pointer;
+  transition:border-color .3s,color .3s;
+}
+.sv-exit:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ═══════════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════════ */
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+
+<!-- BGM -->
+<audio id="bgm" src="./assets/damned_anthem.mp3" loop preload="none"></audio>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  SCREEN A : MAIN                        ║
+     ╚══════════════════════════════════════════╝ -->
+<div id="screenMain" class="screen active">
+
+  <!-- 背景動画 -->
+  <div class="bg-wrap">
+    <video src="./assets/alpaca_loop.mp4"
+      autoplay loop muted playsinline preload="auto" aria-hidden="true"></video>
+  </div>
+
+  <!-- ヒーロー -->
+  <div class="hero">
+    <h1 class="hero-title">Savage Gallery</h1>
+    <p class="hero-sub">High-end Pathetic &nbsp;·&nbsp; Turning Misery into Luxury</p>
+    <a href="#triage" class="enter-btn">Enter the Collection</a>
+    <p class="bgm-hint" id="bgmHint">— touch anywhere to awaken the gallery —</p>
+  </div>
+
+  <!-- トリアージ・シミュレーター -->
+  <section class="triage" id="triage">
+    <h2>絶望の錬金炉 &nbsp;·&nbsp; Triage of Misery</h2>
+    <p class="desc">あなたの不憫なエピソードを投下せよ。<br>
+      帝国のAIが絶望度を鑑定し、宝石への昇華可否を判定する。</p>
+
+    <textarea class="t-area" id="tInput"
+      placeholder="例：7年間育てた観葉植物を枯らした日、なぜか高級品を買った。"></textarea>
+
+    <button class="alch-btn" id="alchBtn">錬 金 ／ Transmute</button>
+
+    <div class="t-load" id="tLoad">
+      <p class="l-text" id="lText">Loading... 絶望の鑑定中...</p>
+      <div class="l-bar-wrap"><div class="l-bar" id="lBar"></div></div>
+    </div>
+
+    <div class="t-result" id="tResult">
+      <div class="r-rank" id="rRank"></div>
+      <p class="r-verdict" id="rVerdict"></p>
+      <p class="r-sub" id="rSub"></p>
+      <button class="retry-btn" id="retryBtn">— 再審請求 —</button>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <span class="tos">
+      © 2026 Stickerverse. All rights reserved.
+      &nbsp;|&nbsp;
+      <a href="#" style="color:inherit;text-decoration:none;font-size:.62rem;letter-spacing:.14em">
+        Terms of Service
+      </a>
+      &nbsp;|&nbsp; By accessing this gallery you agree to the
+    </span>
+    <a href="#" class="hidden-link" id="vaultTrigger">standard collection terms.</a>
+  </footer>
+</div><!-- /screenMain -->
+
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  SCREEN B : SINGULARITY VAULT           ║
+     ╚══════════════════════════════════════════╝ -->
+<div id="screenVault" class="screen">
+  <p class="sv-eyebrow">// CLEARANCE: OBSIDIAN — WELCOME TO THE DEEPEST CHAMBER //</p>
+
+  <div class="sv-diamond" aria-hidden="true">◆</div>
+
+  <h2 class="sv-title">Singularity Vault</h2>
+  <p class="sv-sub">The Black Diamond Chamber &nbsp;·&nbsp; 地下宝物庫</p>
+
+  <!-- ターミナルログ（解錠ログのフェードイン） -->
+  <div class="sv-terminal" id="svTerminal" aria-live="polite">
+    <div class="log-line">// IDENTITY VERIFIED — HIGH-END PATHETIC CLEARANCE GRANTED</div>
+    <div class="log-line"><span class="log-gold">ACCESS LEVEL:</span> OBSIDIAN BLACK ██████████ 100%</div>
+    <div class="log-line log-dim">Decrypting collection index...</div>
+    <div class="log-line"><span class="log-gold">SINGULARITY ITEMS UNLOCKED:</span> 4 / 4</div>
+    <div class="log-line log-dim">// Turning Misery into Luxury since 2026</div>
+    <div class="log-line"><span class="log-gold">WELCOME, CURSED JEWEL. ◆</span></div>
+  </div>
+
+  <!-- 秘蔵コレクション -->
+  <div class="sv-collection">
+    <div class="sv-item">
+      <span class="sv-item-icon">🖤</span>
+      <span class="sv-item-name">Lumi Noir</span>
+      <span class="sv-item-rarity">SSR · OBSIDIAN</span>
+    </div>
+    <div class="sv-item">
+      <span class="sv-item-icon">🤍</span>
+      <span class="sv-item-name">Liquid Pearl</span>
+      <span class="sv-item-rarity">SSR · PEARLESCENT</span>
+    </div>
+    <div class="sv-item">
+      <span class="sv-item-icon">💛</span>
+      <span class="sv-item-name">Gold Phantom</span>
+      <span class="sv-item-rarity">SSR · VISCOUS GOLD</span>
+    </div>
+    <div class="sv-item">
+      <span class="sv-item-icon">◆</span>
+      <span class="sv-item-name">Black Diamond</span>
+      <span class="sv-item-rarity">SINGULARITY · ∞</span>
+    </div>
+  </div>
+
+  <button class="sv-exit" id="svExit">— 帝国の地上へ戻る —</button>
+</div><!-- /screenVault -->
+
+
+<!-- VAULT 認証オーバーレイ（全画面共通） -->
+<div class="vault-overlay" id="vaultOverlay">
+  <div class="vault-gate" id="vaultGate">
+    <div class="scan" aria-hidden="true"></div>
+    <button class="v-close" id="vClose" aria-label="close">✕</button>
+
+    <p class="v-label">// RESTRICTED ACCESS — CLEARANCE LEVEL: OBSIDIAN //</p>
+    <h2 class="v-title">Singularity Vault</h2>
+    <p class="v-sub">The Black Diamond Chamber · 地下宝物庫</p>
+
+    <div class="v-input-wrap">
+      <input type="password" class="v-input" id="vInput"
+        placeholder="ENTER PASSPHRASE"
+        autocomplete="off" spellcheck="false" maxlength="32"/>
+    </div>
+
+    <button class="v-submit" id="vSubmit">[ AUTHENTICATE ]</button>
+
+    <p class="v-err" id="vErr">// ACCESS DENIED — AUTHORIZATION FAILED //</p>
+    <p class="v-tries" id="vTries"></p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+(function(){
+'use strict';
+
+/* ── CONFIG ─────────────────────────────── */
+const CFG = {
+  PASSWORDS:     ['IQ154','OBSIDIAN'],
+  MAX_ATTEMPTS:  5,
+  BGM_FADE_MS:   3000,
+  BGM_VOL:       0.18,
+  TRIAGE_MS:     3800,
+};
+
+/* ── UTILS ──────────────────────────────── */
+const $  = id => document.getElementById(id);
+const cl = (el,...c) => el.classList;
+
+/* ── SCREEN SWITCHER ────────────────────── */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>{
+    s.classList.remove('active');
+  });
+  $(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ══════════════════════════════════════════
+   MODULE 1 : BGM フェードイン
+   初回ユーザー操作で起動、3秒かけて音量フェード
+══════════════════════════════════════════ */
+const bgm = $('bgm');
+let bgmGo = false;
+
+function startBGM(){
+  if(bgmGo) return;
+  bgmGo = true;
+  $('bgmHint').style.opacity = '0';
+  bgm.volume = 0;
+  bgm.play().then(()=>{
+    const steps   = 60;
+    const stepMs  = CFG.BGM_FADE_MS / steps;
+    const stepVol = CFG.BGM_VOL / steps;
+    let   n = 0;
+    const t = setInterval(()=>{
+      n++;
+      bgm.volume = Math.min(CFG.BGM_VOL, bgm.volume + stepVol);
+      if(n >= steps) clearInterval(t);
+    }, stepMs);
+  }).catch(()=>{});
+}
+
+['click','touchstart','keydown'].forEach(ev=>{
+  document.addEventListener(ev, startBGM, {once:true, passive:true});
+});
+
+/* ══════════════════════════════════════════
+   MODULE 2 : 背景動画ループ保証
+══════════════════════════════════════════ */
+const vid = document.querySelector('.bg-wrap video');
+if(vid){
+  vid.addEventListener('ended',()=>{ vid.currentTime=0; vid.play(); });
+  vid.play().catch(()=>{});
+}
+
+/* ══════════════════════════════════════════
+   MODULE 3 : トリアージ・シミュレーター
+══════════════════════════════════════════ */
+const tInput   = $('tInput');
+const alchBtn  = $('alchBtn');
+const tLoad    = $('tLoad');
+const lText    = $('lText');
+const lBar     = $('lBar');
+const tResult  = $('tResult');
+const rRank    = $('rRank');
+const rVerdict = $('rVerdict');
+const rSub     = $('rSub');
+const retryBtn = $('retryBtn');
+
+const LOAD_MSGS = [
+  'Loading... 絶望の鑑定中...',
+  '// Scanning misery index...',
+  '// Measuring pathetic coefficient...',
+  '// Consulting the Black Diamond Council...',
+  '// Rendering final verdict...',
+];
+
+/* SSR / Eキーワード定義 */
+const SSR_KW = ['死','絶望','泣','涙','消えたい','崩壊','奈落','失恋','倒産',
+                'リストラ','孤独','全財産','破産','失業','失った','終わった',
+                'broken','despair','lost everything','ruined','alone','devastated'];
+const MID_KW = ['失敗','恥','後悔','無理','疲れ','辛い','悲しい','最悪',
+                'sad','failed','tired','hopeless','embarrassed','regret'];
+
+function calcScore(txt){
+  let s = 0;
+  const t = txt.toLowerCase();
+  SSR_KW.forEach(k=>{ if(t.includes(k)) s += 30; });
+  MID_KW.forEach(k=>{ if(t.includes(k)) s += 10; });
+  s += Math.min(40, Math.floor(txt.length / 8));
+  s += Math.floor(Math.random() * 25); /* Grokの気まぐれ */
+  return s;
+}
+
+const RESULTS = {
+  SSR:{
+    cls:'ssr', rank:'S  S  R',
+    verdict:'判定：SSR（至高の宝石）\n魂の腐敗が極限まで熟成されている。\nその不憫さは既に美学の域に達した。',
+    sub:'SINGULARITY VAULTへの入場を許可する — Welcome, Cursed Jewel.',
+  },
+  E:[
+    { cls:'e', rank:'E  R A N K',
+      verdict:'判定：Eランク（凡俗な不幸）\n量産型の不憫さだ。\n石ころを持ち込むな。',
+      sub:'// ACCESS DENIED — INSUFFICIENT DESPAIR LEVEL //' },
+    { cls:'e', rank:'E  R A N K',
+      verdict:'判定：Eランク（並みの絶望）\n全人類が経験する程度の不憫さだ。\n貴族院への入会を却下する。',
+      sub:'もっと深く絶望してから出直せ。' },
+    { cls:'e', rank:'D  R A N K',
+      verdict:'判定：Dランク（見込みはある）\nあと一回り大きな絶望を経験すれば\n門前の資格くらいは得られるかもしれない。',
+      sub:'— 出直してこい —' },
+  ],
+};
+
+function runTriage(){
+  const txt = tInput.value.trim();
+  if(!txt){
+    tInput.focus();
+    tInput.style.borderColor = 'var(--red)';
+    setTimeout(()=>{ tInput.style.borderColor=''; }, 900);
+    return;
+  }
+  alchBtn.disabled = true;
+  tResult.className = 't-result';
+  tResult.style.display = 'none';
+  tLoad.classList.add('on');
+  lBar.style.transition = 'none';
+  lBar.style.width = '0%';
+
+  /* バー & メッセージアニメーション */
+  requestAnimationFrame(()=>{
+    lBar.style.transition = `width ${CFG.TRIAGE_MS}ms linear`;
+    lBar.style.width = '100%';
+  });
+  let mi = 0;
+  const mInt = setInterval(()=>{
+    mi = (mi+1) % LOAD_MSGS.length;
+    lText.textContent = LOAD_MSGS[mi];
+  }, CFG.TRIAGE_MS / LOAD_MSGS.length);
+
+  setTimeout(()=>{
+    clearInterval(mInt);
+    tLoad.classList.remove('on');
+
+    const score = calcScore(txt);
+    const isSSR = score >= 70;
+    const data  = isSSR
+      ? RESULTS.SSR
+      : RESULTS.E[Math.floor(Math.random() * RESULTS.E.length)];
+
+    tResult.className = `t-result on ${data.cls}`;
+    rRank.textContent    = data.rank;
+    rVerdict.textContent = data.verdict;
+    rSub.textContent     = data.sub;
+
+    alchBtn.disabled = false;
+
+    /* SSR → 3秒後に自動でVault起動 */
+    if(isSSR) setTimeout(openVault, 3000);
+
+  }, CFG.TRIAGE_MS);
+}
+
+alchBtn.addEventListener('click', runTriage);
+retryBtn.addEventListener('click', ()=>{
+  tResult.className = 't-result';
+  tInput.value = '';
+  tInput.focus();
+});
+
+/* ══════════════════════════════════════════
+   MODULE 4 : SINGULARITY VAULT 認証
+══════════════════════════════════════════ */
+const overlay = $('vaultOverlay');
+const gate    = $('vaultGate');
+const vInput  = $('vInput');
+const vSubmit = $('vSubmit');
+const vClose  = $('vClose');
+const vErr    = $('vErr');
+const vTries  = $('vTries');
+
+let attempts = 0;
+let locked   = false;
+
+function openVault(){
+  if(locked) return;
+  startBGM();
+  overlay.classList.add('open');
+  setTimeout(()=> vInput.focus(), 650);
+  updateTries();
+  console.log(
+    '%c◆ The Black Diamond Vault %c— You were not supposed to find this.',
+    'color:#f0d060;font-size:14px;font-weight:bold;',
+    'color:#666;font-size:11px;'
+  );
+}
+
+function closeVault(){
+  overlay.classList.remove('open');
+  vInput.value = '';
+  vErr.classList.remove('show');
+  gate.classList.remove('unlocking');
+  vSubmit.textContent = '[ AUTHENTICATE ]';
+  vInput.disabled     = false;
+  vSubmit.disabled    = false;
+}
+
+function updateTries(){
+  if(attempts > 0)
+    vTries.textContent = `// FAILED ATTEMPTS: ${attempts} / ${CFG.MAX_ATTEMPTS} //`;
+}
+
+function authenticate(){
+  if(locked) return;
+  const val = vInput.value.trim().toUpperCase();
+
+  if(CFG.PASSWORDS.includes(val)){
+    /* ── 解錠成功 ── */
+    vErr.classList.remove('show');
+    gate.classList.add('unlocking');
+    vSubmit.textContent = '[ ACCESS GRANTED ]';
+    vInput.disabled     = true;
+    vSubmit.disabled    = true;
+
+    setTimeout(()=>{
+      overlay.classList.remove('open');
+      revealVault();  /* 同一ページ内のVault画面へ */
+    }, 980);
+
+  } else {
+    /* ── 認証失敗 ── */
+    attempts++;
+    vInput.value = '';
+    vInput.classList.add('error');
+    vErr.classList.add('show');
+    vErr.textContent = '// ACCESS DENIED — AUTHORIZATION FAILED //';
+    updateTries();
+    setTimeout(()=> vInput.classList.remove('error'), 420);
+
+    if(attempts >= CFG.MAX_ATTEMPTS){
+      locked = true;
+      vInput.disabled  = true;
+      vSubmit.disabled = true;
+      vErr.textContent = '// VAULT SEALED — SECURITY PROTOCOL ENGAGED //';
+      vTries.textContent = '// TOO MANY FAILURES. IDENTITY FLAGGED. //';
+      setTimeout(closeVault, 3200);
+    }
+  }
+}
+
+/* ── イベント登録 ── */
+$('vaultTrigger').addEventListener('click', e=>{
+  e.preventDefault(); openVault();
+});
+$('vaultTrigger').addEventListener('mouseenter', ()=>{
+  console.log(
+    '%c◆ The Black Diamond Vault %c— You were not supposed to find this.',
+    'color:#f0d060;font-size:14px;font-weight:bold;',
+    'color:#666;font-size:11px;'
+  );
+});
+vClose.addEventListener('click', closeVault);
+vSubmit.addEventListener('click', authenticate);
+vInput.addEventListener('keydown', e=>{ if(e.key==='Enter') authenticate(); });
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeVault(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeVault(); });
+
+/* ══════════════════════════════════════════
+   MODULE 5 : VAULT 画面フェードイン
+   解錠後に screenVault をアクティブにし
+   ターミナルログを順次フェードイン
+══════════════════════════════════════════ */
+function revealVault(){
+  showScreen('screenVault');
+
+  /* ターミナルログを 400ms ずつ順次表示 */
+  const lines = document.querySelectorAll('#svTerminal .log-line');
+  lines.forEach((line, i)=>{
+    setTimeout(()=> line.classList.add('show'), 300 + i * 420);
+  });
+}
+
+$('svExit').addEventListener('click', ()=>{
+  /* Vault画面 → メイン画面に戻る */
+  showScreen('screenMain');
+  /* ログをリセット（次回解錠時のため） */
+  document.querySelectorAll('#svTerminal .log-line')
+    .forEach(l=> l.classList.remove('show'));
+});
+
+})();
+</script>
+</body>
+</html>

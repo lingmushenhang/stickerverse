@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -m py_compile scripts/api_ping.py)",
+      "Bash(python3 scripts/api_ping.py --help)",
+      "Bash(python3 scripts/api_ping.py)"
+    ]
+  }
+}

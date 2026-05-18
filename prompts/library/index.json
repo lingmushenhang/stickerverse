@@ -1,0 +1,22 @@
+{
+  "version": "1.1",
+  "last_updated": "2026-05-06",
+  "total_styles": 6,
+  "total_samples": 30,
+  "verification": {
+    "model": "Gemini Imagen",
+    "min_score": 90,
+    "verified_at": "2026-05"
+  },
+  "files": {
+    "styles": "styles.json",
+    "samples": "samples.json"
+  },
+  "changelog": [
+    {
+      "version": "1.1",
+      "date": "2026-05",
+      "note": "全スタイル90点以上でGemini検証完了。日英バイリンガル構造に統一。"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+# ════════════════════════════════════════════════════════════════
+#  Stickerverse — .gitignore
+#
+#  設計方針:
+#    - API キーは絶対に追跡しない（流出すると即課金被害）
+#    - prompts/library/*.json と flutter_actions/ は重要資産として必ず追跡
+#    - IDE 設定はチーム共有できるものだけ残す
+# ════════════════════════════════════════════════════════════════
+
+
+# ══════════════════════════════════════════════
+#  API キー・シークレット（最重要）
+#  Cloud Functions 化したときに .env が生まれるので今から防御
+# ══════════════════════════════════════════════
+.env
+.env.*
+*.env
+.env.local
+.env.production
+.env.development
+
+*_key
+*_key.txt
+*_key.json
+*secret*
+*Secret*
+*SECRET*
+credentials.json
+service_account.json
+secrets/
+.secrets/
+
+
+# ══════════════════════════════════════════════
+#  macOS
+# ══════════════════════════════════════════════
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.AppleDouble
+__MACOSX/
+*.icloud
+
+
+# ══════════════════════════════════════════════
+#  Python
+# ══════════════════════════════════════════════
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+*.egg-info/
+dist/
+.pytest_cache/
+
+
+# ══════════════════════════════════════════════
+#  Dart / Flutter ビルド成果物
+# ══════════════════════════════════════════════
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock
+
+# FlutterFlow が生成するキャッシュ
+.flutterflow/
+
+
+# ══════════════════════════════════════════════
+#  IDE — VS Code
+#  extensions.json（推奨拡張）と launch.json（デバッグ設定）は追跡する
+# ══════════════════════════════════════════════
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+
+
+# ══════════════════════════════════════════════
+#  IDE — JetBrains / Android Studio
+#  コードスタイル設定はチームで共有できるので残す
+# ══════════════════════════════════════════════
+.idea/*
+!.idea/codeStyles/
+
+
+# ══════════════════════════════════════════════
+#  ログ・一時ファイル
+# ══════════════════════════════════════════════
+*.log
+tmp/
+.tmp/
+*.tmp
+
+
+# ══════════════════════════════════════════════
+#  重要資産の明示的な追跡保護
+#  上記のパターンが誤ってこれらを除外しないよう念のため明記
+# ══════════════════════════════════════════════
+!prompts/library/styles.json
+!prompts/library/samples.json
+!prompts/library/index.json
+!flutter_actions/api_calls/gemini_generate.dart
+!flutter_actions/api_calls/claude_write.dart
+!flutter_actions/api_calls/gemini_generate_example.dart
+!flutter_actions/api_calls/claude_write_example.dart
+!scripts/validate_library.py
+!docs/architecture.md
+!docs/product_spec.md
+!CLAUDE.md

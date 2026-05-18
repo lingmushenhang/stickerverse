@@ -1,0 +1,136 @@
+/* ── RelicCard styles ───────────────────────────────────── */
+
+.card {
+  position: relative;
+  background: rgba(255, 215, 0, 0.018);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  padding: 40px 32px 32px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.4s, background 0.4s;
+  outline: none;
+}
+
+.card:hover,
+.card:focus-visible {
+  background: rgba(255, 215, 0, 0.05);
+  border-color: rgba(255, 215, 0, 0.38);
+}
+
+/* Gold Flare sweep pseudo-element */
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -70%;
+  width: 65%; height: 200%;
+  background: linear-gradient(
+    105deg,
+    transparent 25%,
+    rgba(255, 215, 0, 0.10) 45%,
+    rgba(255, 229, 102, 0.22) 50%,
+    rgba(255, 215, 0, 0.08) 55%,
+    transparent 75%
+  );
+  transform: skewX(-15deg);
+  pointer-events: none;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00e5cc, transparent);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+  pointer-events: none;
+}
+
+.card:hover::after,
+.card:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.flaring::before {
+  animation: goldFlareSweep 0.56s ease-out forwards;
+}
+
+@keyframes goldFlareSweep {
+  0%   { left: -70%; opacity: 1; }
+  100% { left: 130%; opacity: 0.5; }
+}
+
+/* ── Content ── */
+.badge {
+  position: absolute;
+  top: 16px; right: 16px;
+  font-size: 8px; letter-spacing: 2px;
+  color: #000010;
+  background: #00e5cc;
+  padding: 3px 8px;
+  text-transform: uppercase;
+}
+
+.icon {
+  font-size: 34px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.tier {
+  font-size: 8px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.tierSsr  { color: #ffd700; }
+.tierSss  { color: #ff88ff; text-shadow: 0 0 10px rgba(255, 136, 255, 0.7); }
+.tierSr   { color: #88ccff; }
+.tierR    { color: #888888; }
+.tierMyth { color: #ff6b6b; }
+
+.title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.glitching {
+  animation: titleGlitch 0.36s steps(5) forwards;
+}
+
+@keyframes titleGlitch {
+  0%   { transform: translateX(0);    color: #fff; }
+  20%  { transform: translateX(-4px); color: #00e5cc; }
+  40%  { transform: translateX(4px);  color: #ffd700; }
+  60%  { transform: translateX(-2px); color: #ff88ff; }
+  80%  { transform: translateX(2px);  color: #fff; }
+  100% { transform: translateX(0);    color: #fff; }
+}
+
+.roast {
+  font-size: 11px;
+  color: rgba(255, 215, 0, 0.42);
+  line-height: 1.65;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.id {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.14);
+  letter-spacing: 2px;
+  margin-top: 18px;
+  text-transform: uppercase;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flaring::before { animation: none; opacity: 0; }
+  .glitching       { animation: none; }
+}
