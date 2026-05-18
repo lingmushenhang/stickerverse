@@ -3,31 +3,31 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev":   "next dev --turbo --port 3000",
+    "dev": "next dev --turbo --port 3000",
     "build": "next build",
     "start": "next start",
-    "lint":  "next lint",
+    "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "db:push":    "supabase db push",
-    "db:reset":   "supabase db reset",
-    "db:types":   "supabase gen types typescript --local > src/types/database.types.ts"
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --local > src/types/database.types.ts"
   },
   "dependencies": {
-    "next":          "15.3.2",
-    "react":         "19.0.0",
-    "react-dom":     "19.0.0",
-    "@supabase/supabase-js": "^2.49.4"
+    "@supabase/supabase-js": "^2.49.4",
+    "next": "^16.2.6",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
-    "typescript":              "^5.8.3",
-    "@types/node":             "^22",
-    "@types/react":            "^19",
-    "@types/react-dom":        "^19",
-    "eslint":                  "^9",
-    "eslint-config-next":      "15.3.2",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8",
-    "@typescript-eslint/parser":        "^8",
-    "supabase":                "^2"
+    "@typescript-eslint/parser": "^8",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "supabase": "^2",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">=20"
