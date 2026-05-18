@@ -50,7 +50,7 @@ function checkRateLimit(ip: string): boolean {
 // ── Hash IP for logging (SHA-256 hex, no PII stored raw) ──
 
 async function hashIp(ip: string): Promise<string> {
-  const data   = new TextEncoder().encode(ip + process.env.IP_HASH_SALT ?? 'imperial-salt');
+  const data   = new TextEncoder().encode(ip + (process.env.IP_HASH_SALT ?? 'imperial-salt'));
   const digest = await crypto.subtle.digest('SHA-256', data);
   return Array.from(new Uint8Array(digest))
     .map(b => b.toString(16).padStart(2, '0'))
