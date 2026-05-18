@@ -78,7 +78,7 @@ export async function recordDemotion(params: {
   ipHash: string | null;
 }): Promise<void> {
   const admin = getSupabaseAdmin();
-  const { error } = await admin.from('demotion_logs').insert({
+  const { error } = await (admin as any).from('demotion_logs').insert({
     user_id:    params.userId,
     session_id: params.sessionId,
     strikes:    params.strikes,
