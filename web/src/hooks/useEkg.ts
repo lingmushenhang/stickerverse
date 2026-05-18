@@ -12,11 +12,11 @@ function buildBeat(len: number): Float32Array {
   const buf = new Float32Array(len);
   for (let i = 0; i < len; i++) {
     const t = i / len;
-    buf[i] += 0.13  * Math.exp(-((t - 0.10) / 0.033) ** 2); // P
-    buf[i] -= 0.09  * Math.exp(-((t - 0.19) / 0.017) ** 2); // Q
-    buf[i] += 1.00  * Math.exp(-((t - 0.23) / 0.015) ** 2); // R
-    buf[i] -= 0.32  * Math.exp(-((t - 0.28) / 0.016) ** 2); // S
-    buf[i] += 0.24  * Math.exp(-((t - 0.42) / 0.058) ** 2); // T
+    buf[i] += 0.13  * Math.exp(-Math.pow((t - 0.10) / 0.033, 2)); // P
+    buf[i] -= 0.09  * Math.exp(-Math.pow((t - 0.19) / 0.017, 2)); // Q
+    buf[i] += 1.00  * Math.exp(-Math.pow((t - 0.23) / 0.015, 2)); // R
+    buf[i] -= 0.32  * Math.exp(-Math.pow((t - 0.28) / 0.016, 2)); // S
+    buf[i] += 0.24  * Math.exp(-Math.pow((t - 0.42) / 0.058, 2)); // T
   }
   return buf;
 }
