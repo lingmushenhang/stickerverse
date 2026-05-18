@@ -90,7 +90,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   // ── Atomic redemption via Supabase RPC ──
   try {
     const admin = getSupabaseAdmin();
-    const { data, error } = await admin
+    const { data, error } = await (admin as any)
       .rpc('redeem_serial_code', {
         p_code:    code,
         p_user_id: userId,
