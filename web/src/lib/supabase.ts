@@ -56,8 +56,7 @@ export function getSupabaseAdmin() {
 
 export async function promoteToDuke(userId: string): Promise<void> {
   const admin = getSupabaseAdmin();
-  const { error } = await admin
-    .from('users')
+  const { error } = await (admin as any).from('users')
     .update({
       rank: 'duke',
       vault_unlocked_at: new Date().toISOString(),
@@ -99,8 +98,7 @@ export async function recordDemotion(params: {
 
 export async function demoteUser(userId: string): Promise<void> {
   const admin = getSupabaseAdmin();
-  const { error } = await admin
-    .from('users')
+  const { error } = await (admin as any).from('users')
     .update({
       rank:        'civilian',
       demoted_at:  new Date().toISOString(),
